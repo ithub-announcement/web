@@ -1,3 +1,4 @@
+import { __APP_CONFIG__ } from "../config.env";
 import { AppComponent, CoreConfiguration } from "./core";
 import ReactDOM from "react-dom/client";
 
@@ -50,6 +51,35 @@ export class Core {
   }
 
   /**
+   * validateClientAuthorization
+   *
+   * Метод для валидации авторизации пользователя
+   */
+
+  private async validateClientAuthorization() {
+    try {
+      const token: string | null = localStorage.getItem("access");
+      if (!token) return;
+
+      await this.makeCall(
+        `${__APP_CONFIG__.api.baseUrl}/users/api/v1/auth/validate`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            access: token,
+          }),
+        }
+      ).then((r) => r.status == 400 && localStorage.removeItem("access"));
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  /**
    * mount
    *
    * Метод для рендера приложения.
@@ -75,6 +105,7 @@ export class Core {
     const core = new Core(component);
     const { AppDOMNode } = core.configuration;
 
+    core.validateClientAuthorization();
     core.mount(AppDOMNode());
 
     return void 0;
