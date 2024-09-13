@@ -5,7 +5,9 @@ export const RootLayout: React.FC = () => {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <div className="w-full min-h-screen max-w-[1240px] mx-auto px-4">
+        <Outlet />
+      </div>
     </>
   );
 };
