@@ -18,15 +18,19 @@ export interface NavbarItemProps
  *
  * @author loseex
  */
-const NavbarComponent: React.FC<NavbarProps> = (props): React.ReactElement => {
+const NavbarComponent: React.FC<NavbarProps> = ({
+  children,
+  className,
+  ...props
+}): React.ReactElement => {
   return (
     <div
-      className="w-full h-[60px] flex justify-center items-center p-3"
+      className={`w-full h-[60px] flex justify-center items-center p-3 ${className}`}
       {...props}
     >
       <div
         className="w-full max-w-[1280px] px-4 flex justify-between items-center"
-        children={props.children}
+        children={className}
       />
     </div>
   );
