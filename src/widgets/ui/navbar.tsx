@@ -104,9 +104,13 @@ const NavbarSection: React.FC<NavbarSectionProps> = ({
   /**
    * Момент обертки всех children в тег.
    */
-  const updated = React.Children.map(children, (child: React.ReactNode) => (
-    <Navbar.Item children={child} />
-  ));
+  const updated = React.useMemo(
+    () =>
+      React.Children.map(children, (child: React.ReactNode) => (
+        <Navbar.Item children={child} />
+      )),
+    [children]
+  );
   return <ul className={theme.list} children={updated} {...props} />;
 };
 NavbarSection.displayName = "Navbar.Section";
