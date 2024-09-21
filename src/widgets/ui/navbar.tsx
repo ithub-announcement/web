@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 export interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
   theme?: NavbarTheme;
@@ -7,10 +7,17 @@ export interface NavbarSectionProps
   extends React.HTMLAttributes<HTMLUListElement> {}
 export interface NavbarItemProps
   extends React.HtmlHTMLAttributes<HTMLLIElement> {}
+export interface NavbarBrandProps
+  extends React.HTMLAttributes<HTMLDivElement & HTMLImageElement> {
+  src: string;
+  href?: string;
+  alt?: string;
+}
 export type NavbarTheme = {
   base: string;
   inner: string;
   list: string;
+  brand: string;
 };
 
 /**
@@ -29,6 +36,7 @@ const NavbarTheme: NavbarTheme = {
   base: "w-full h-[60px] flex justify-center items-center p-3",
   inner: "w-full max-w-[1280px] px-4 flex justify-between items-center",
   list: "flex flex-row gap-3",
+  brand: "w-fit h-9",
 };
 
 /**
@@ -116,12 +124,39 @@ const NavbarSection: React.FC<NavbarSectionProps> = ({
 NavbarSection.displayName = "Navbar.Section";
 
 /**
+ * NavbarBrand
+ *
+ * Компонент для отображения логотипа на компоненте Navbar.
+ * При помощи этого компонента можно перейти на главную страницу.
+ */
+const NavbarBrand: React.FC<NavbarBrandProps> = ({
+  className,
+  ...props
+}): React.ReactElement => {
+  const theme = useContext(NavbarContext);
+  return (
+    <a href={props.href ?? "/"}>
+      <img
+        className={`${theme.brand} ${
+          className !== undefined ? " " + className : ""
+        }`}
+        src={props.src}
+        loading="lazy"
+        alt={props.alt ?? "Navbar Brand Logotype"}
+      />
+    </a>
+  );
+};
+NavbarBrand.displayName = "Navbar.Brand";
+
+/**
  * Navbar
  *
- * Основной компонент, объединяющий NavbarComponent, NavbarSection и NavbarItem,
+ * Основной компонент, объединяющий NavbarComponent, NavbarSection, NavbarBrand и NavbarItem,
  * позволяя легко создавать адаптивные навигационные панели с использованием вложенной структуры.
  */
 export const Navbar = Object.assign(NavbarComponent, {
   Section: NavbarSection,
   Item: NavbarItem,
+  Brand: NavbarBrand,
 });
