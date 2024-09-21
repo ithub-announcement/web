@@ -1,18 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 
 export interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
   theme?: NavbarTheme;
 }
 export interface NavbarSectionProps
   extends React.HTMLAttributes<HTMLUListElement> {}
+
 export interface NavbarItemProps
   extends React.HtmlHTMLAttributes<HTMLLIElement> {}
+
 export interface NavbarBrandProps
   extends React.HTMLAttributes<HTMLDivElement & HTMLImageElement> {
   src: string;
   href?: string;
   alt?: string;
 }
+
 export type NavbarTheme = {
   base: string;
   inner: string;
@@ -133,7 +136,7 @@ const NavbarBrand: React.FC<NavbarBrandProps> = ({
   className,
   ...props
 }): React.ReactElement => {
-  const theme = useContext(NavbarContext);
+  const theme = React.useContext(NavbarContext);
   return (
     <a href={props.href ?? "/"}>
       <img
