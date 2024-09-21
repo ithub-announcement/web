@@ -96,14 +96,15 @@ NavbarItem.displayName = "Navbar.Item";
  *
  * @param props - Дополнительные атрибуты для настройки стилей и поведения компонента.
  */
-const NavbarSection: React.FC<NavbarSectionProps> = (
-  props
-): React.ReactElement => {
+const NavbarSection: React.FC<NavbarSectionProps> = ({
+  children,
+  ...props
+}): React.ReactElement => {
   const theme = React.useContext(NavbarContext);
   /**
    * Момент обертки всех children в тег.
    */
-  const updated = React.Children.map(props.children, (child) => (
+  const updated = React.Children.map(children, (child: React.ReactNode) => (
     <Navbar.Item children={child} />
   ));
   return <ul className={theme.list} children={updated} {...props} />;
