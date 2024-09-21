@@ -1,10 +1,44 @@
 import React from "react";
 
-export interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
+  theme?: NavbarTheme;
+}
 export interface NavbarSectionProps
   extends React.HTMLAttributes<HTMLUListElement> {}
 export interface NavbarItemProps
   extends React.HtmlHTMLAttributes<HTMLLIElement> {}
+export type NavbarTheme = {
+  base: string;
+  inner: string;
+  list: string;
+};
+
+/**
+ * NavbarTheme
+ *
+ * Объект, содержащий стили для компонента Navbar.
+ * Включает базовые и внутренние стилевые классы, а также стили для списка элементов.
+ *
+ * - base: Общие стили, задающие размеры, размещение и отступы для всего Navbar.
+ * - inner: Стилевые классы для центральной области Navbar, определяющие максимальную ширину и выравнивание элементов.
+ * - list: Стилевые классы для горизонтального списка элементов, позволяющие настраивать отступы между ними.
+ *
+ * @default
+ */
+const NavbarTheme: NavbarTheme = {
+  base: "w-full h-[60px] flex justify-center items-center p-3",
+  inner: "w-full max-w-[1280px] px-4 flex justify-between items-center",
+  list: "flex flex-row gap-3",
+};
+
+/**
+ * NavbarContext
+ *
+ * Контекст для глобального управления темой (NavbarTheme) компонента Navbar.
+ * Позволяет дочерним компонентам получать доступ к настройкам темы и состояниям Navbar
+ * без необходимости передавать их через пропсы на каждом уровне.
+ */
+const NavbarContext = React.createContext(NavbarTheme);
 
 /**
  * Navbar
@@ -23,16 +57,18 @@ const NavbarComponent: React.FC<NavbarProps> = ({
   className,
   ...props
 }): React.ReactElement => {
+  const theme = props.theme ?? NavbarTheme;
   return (
-    <div
-      className={`w-full h-[60px] flex justify-center items-center p-3 ${className}`}
-      {...props}
-    >
-      <div
-        className="w-full max-w-[1280px] px-4 flex justify-between items-center"
-        children={className}
-      />
-    </div>
+    <NavbarContext.Provider value={theme}>
+      <nav
+        className={`${theme.base}${
+          className !== undefined ? " " + className : ""
+        }`}
+        {...props}
+      >
+        <div className={theme.inner} children={children} />
+      </nav>
+    </NavbarContext.Provider>
   );
 };
 NavbarComponent.displayName = "Navbar";
@@ -46,8 +82,8 @@ NavbarComponent.displayName = "Navbar";
  *
  * @param props - Дополнительные атрибуты для настройки стилей и поведения компонента.
  */
-const NavbarItem: React.FC<NavbarItemProps> = (props) => (
-  <li children={props.children} />
+const NavbarItem: React.FC<NavbarItemProps> = (props): React.ReactElement => (
+  <li children={props.children} {...props} />
 );
 NavbarItem.displayName = "Navbar.Item";
 
@@ -63,13 +99,14 @@ NavbarItem.displayName = "Navbar.Item";
 const NavbarSection: React.FC<NavbarSectionProps> = (
   props
 ): React.ReactElement => {
+  const theme = React.useContext(NavbarContext);
   /**
    * Момент обертки всех children в тег.
    */
   const updated = React.Children.map(props.children, (child) => (
     <Navbar.Item children={child} />
   ));
-  return <ul className="flex flex-row gap-3" children={updated} />;
+  return <ul className={theme.list} children={updated} {...props} />;
 };
 NavbarSection.displayName = "Navbar.Section";
 
