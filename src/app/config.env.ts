@@ -1,4 +1,4 @@
-export const __APP_CONFIG__ = {
+export default {
   api: {
     baseUrl: "http://localhost:8000",
   },
