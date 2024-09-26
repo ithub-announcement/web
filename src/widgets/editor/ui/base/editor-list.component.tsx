@@ -2,6 +2,7 @@ import React from "react";
 
 import { useTypedSelector } from "@/shared/hooks/redux/redux.selector";
 import { Block, BlockProps } from "./editor-block.component";
+import { EditorContext } from "./editor.component";
 
 /**
  * List
@@ -14,11 +15,12 @@ import { Block, BlockProps } from "./editor-block.component";
  *
  */
 export const List: React.FC = React.memo(() => {
+  const theme = React.useContext(EditorContext);
   const { content } = useTypedSelector(
     (state) => state.EditorSliceReducer.wrapper
   );
   return (
-    <div className="flex flex-col space-y-10">
+    <div className={theme.list}>
       {content.map((el) => (
         <Block {...(el as BlockProps)} />
       ))}

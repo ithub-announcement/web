@@ -1,8 +1,20 @@
 import React from "react";
 
 import { List } from "./editor-list.component";
+import { EditorTheme } from "../theme";
 
-type Props = {};
+type Props = {
+  theme?: EditorTheme;
+};
+
+/**
+ * EditorContext
+ *
+ * Контекст для глобального управления темой (EditorTheme) компонента Editor.
+ * Позволяет дочерним компонентам получать доступ к настройкам темы и состояниям Editor
+ * без необходимости передавать их через пропсы на каждом уровне.
+ */
+export const EditorContext = React.createContext(EditorTheme);
 
 /**
  * Editor
@@ -23,9 +35,12 @@ type Props = {};
 export const Editor: React.FC<Readonly<Props>> = (
   _props
 ): React.ReactElement => {
+  const theme = _props.theme ?? EditorTheme;
   return (
-    <div className="w-full min-h-fit">
-      <List />
-    </div>
+    <EditorContext.Provider value={theme}>
+      <div className={theme.base}>
+        <List />
+      </div>
+    </EditorContext.Provider>
   );
 };
