@@ -1,21 +1,17 @@
-import { __APP_CONFIG__ } from "../config.env";
+import env from "../config.env";
 import { AppComponent, CoreConfiguration } from "./core";
 import ReactDOM from "react-dom/client";
 
 /**
  * Core
  *
- * Ядро веб-приложения.
+ * Ядро веб-приложения, отвечающее за инициализацию и управление основными компонентами.
  *
  * @author Чехонадских Дмитрий
  * @author Власенко Дмитрий
  */
 
 export class Core {
-  /**
-   * Конфигурация ядра приложения.
-   */
-
   private configuration: CoreConfiguration = {
     AppComponent: () => void 0,
     AppDOMNode: () => document.getElementById("root") as HTMLDivElement,
@@ -33,12 +29,13 @@ export class Core {
   /**
    * makeCall
    *
-   * Метод для отправки http запроса до рендера приложения.
+   * Выполняет HTTP-запрос с указанными параметрами.
+   * Обрабатывает ошибки, возникающие при выполнении запроса.
    *
-   * @param input
-   * @param init
+   * @param input - URL или объект Request для выполнения запроса.
+   * @param init - Опциональные параметры для конфигурации запроса.
+   * @returns Обещание, содержащее ответ сервера.
    */
-
   private async makeCall(
     input: RequestInfo | URL,
     init?: RequestInit
@@ -53,27 +50,25 @@ export class Core {
   /**
    * validateClientAuthorization
    *
-   * Метод для валидации авторизации пользователя
+   * Проверяет действительность токена доступа.
+   * Если токен недействителен, он удаляется из локального хранилища.
+   *
    */
-
   private async validateClientAuthorization() {
     try {
       const token: string | null = localStorage.getItem("access");
       if (!token) return;
 
-      await this.makeCall(
-        `${__APP_CONFIG__.api.baseUrl}/users/api/v1/auth/validate`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            access: token,
-          }),
-        }
-      ).then((r) => r.status == 400 && localStorage.removeItem("access"));
+      await this.makeCall(`${env.api.baseUrl}/users/api/v1/auth/validate`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access: token,
+        }),
+      }).then((r) => r.status == 400 && localStorage.removeItem("access"));
     } catch (err) {
       console.error(err);
     }
@@ -82,11 +77,10 @@ export class Core {
   /**
    * mount
    *
-   * Метод для рендера приложения.
+   * Монтирует компонент приложения в указанный DOM-узел.
    *
-   * @param DomNode
+   * @param DomNode - Узел DOM, в который будет смонтирован компонент приложения.
    */
-
   private mount(DomNode: HTMLDivElement): void {
     const { AppComponent } = this.configuration;
     this.configuration.AppReactDOM = ReactDOM.createRoot(DomNode);
@@ -96,11 +90,11 @@ export class Core {
   /**
    * setup
    *
-   * Метод для запуска ядра приложения.
+   * Статический метод для настройки ядра приложения.
+   * Выполняет проверку авторизации и монтирует компонент приложения.
    *
-   * @param component
+   * @param component - Компонент приложения, который будет рендериться.
    */
-
   public static setup(component: AppComponent) {
     const core = new Core(component);
     const { AppDOMNode } = core.configuration;

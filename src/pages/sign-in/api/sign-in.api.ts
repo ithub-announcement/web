@@ -1,11 +1,11 @@
-import { __APP_CONFIG__ } from "@/app/config.env";
+import env from "@/app/config.env";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AuhtorzationClientPayload, AuhtorzationClientResponse } from "./types";
 
 export const SignInAPI = createApi({
   reducerPath: "login/api",
   baseQuery: fetchBaseQuery({
-    baseUrl: __APP_CONFIG__.api.baseUrl + "/users/api/v1",
+    baseUrl: env.api.baseUrl + "/users/api/v1",
   }),
   endpoints: (build) => ({
     AuhtorzationClient: build.mutation<
