@@ -50,6 +50,14 @@ export const EditorSlice = createSlice({
     },
 
     /**
+     * Метод для создания блока.
+     * @param action
+     */
+    create: (_state, _action) => {
+      // ...
+    },
+
+    /**
      * Метод для сброса данных у редактора.
      * @default
      */

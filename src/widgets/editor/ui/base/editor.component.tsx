@@ -40,7 +40,7 @@ export const Editor: React.FC<Readonly<Props>> = (
   return (
     <EditorContext.Provider value={theme}>
       <div className={theme.base}>
-        <div>
+        <div className="mb-8">
           <Title />
         </div>
         <List />

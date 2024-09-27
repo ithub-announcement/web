@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import { Paragraph } from "../contents/paragraph.component";
+
 export type BlockType = "heading" | "paragraph";
 
 export type BlockProps = {
@@ -26,7 +28,7 @@ export const Block: React.FC<BlockProps> = (
   const Selected: React.FC<BlockProps> = React.useMemo(() => {
     return {
       heading: () => <></>,
-      paragraph: () => <></>,
+      paragraph: Paragraph,
     }[props.type];
   }, [props.type]);
 
