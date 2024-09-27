@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useTypedSelector } from "@/shared/hooks/redux/redux.selector";
 import { useActions } from "@/shared/hooks/redux/redux.actions";
 import { insertCaretAtEnd } from "../../utils/insertCaretAtEnd";
+import { EditorContext } from "./editor.component";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   maxLength?: number;
-};
+}
 
 /**
  * Title
@@ -17,7 +18,10 @@ type Props = {
  */
 export const Title: React.FC<Readonly<Props>> = ({
   maxLength = 64,
+  ...props
 }): React.ReactElement => {
+  const theme = useContext(EditorContext);
+
   const payload = useTypedSelector((state) => state.EditorSliceReducer);
   const { updTitle } = useActions();
 
@@ -59,13 +63,14 @@ export const Title: React.FC<Readonly<Props>> = ({
 
   return (
     <div
-      className="w-full h-fit text-4xl font-extrabold outline-none relative"
+      className={theme.title}
       onInput={handleOnChange}
       contentEditable
       suppressContentEditableWarning
       ref={titleRef}
       aria-placeholder="Заголовок"
       dangerouslySetInnerHTML={{ __html: payload.wrapper.title }}
+      {...props}
     />
   );
 };
