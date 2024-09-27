@@ -21,8 +21,8 @@ export const List: React.FC = React.memo(() => {
   );
   return (
     <div className={theme.list}>
-      {content.map((el) => (
-        <Block {...(el as BlockProps)} />
+      {content.map((el, i) => (
+        <Block key={i} {...(el as BlockProps)} />
       ))}
     </div>
   );
