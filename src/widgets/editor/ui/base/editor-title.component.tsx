@@ -1,6 +1,7 @@
 import React from "react";
 import { useTypedSelector } from "@/shared/hooks/redux/redux.selector";
 import { useActions } from "@/shared/hooks/redux/redux.actions";
+import { insertCaretAtEnd } from "../utils/insertCaretAtEnd";
 
 export const Title: React.FC = (): React.ReactElement => {
   const payload = useTypedSelector((state) => state.EditorSliceReducer);
@@ -32,6 +33,9 @@ export const Title: React.FC = (): React.ReactElement => {
 
   React.useEffect(() => {
     titleRef.current?.addEventListener("keydown", handleKeyDown);
+
+    insertCaretAtEnd(titleRef);
+
     return () => {
       titleRef.current?.removeEventListener("keydown", handleKeyDown);
     };
