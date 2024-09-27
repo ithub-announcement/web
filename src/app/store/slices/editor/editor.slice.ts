@@ -30,9 +30,7 @@ export const EditorSlice = createSlice({
      * @param action
      */
     updTitle: (_state, action: PayloadAction<string>) => {
-      if (_state.wrapper.title.length < 64)
-        _state.wrapper.title = action.payload.valueOf();
-      console.info(_state.wrapper.title);
+      _state.wrapper.title = action.payload;
     },
 
     /**

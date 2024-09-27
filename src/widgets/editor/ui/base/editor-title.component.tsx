@@ -1,9 +1,15 @@
 import React from "react";
 import { useTypedSelector } from "@/shared/hooks/redux/redux.selector";
 import { useActions } from "@/shared/hooks/redux/redux.actions";
-import { insertCaretAtEnd } from "../utils/insertCaretAtEnd";
+import { insertCaretAtEnd } from "../../utils/insertCaretAtEnd";
 
-export const Title: React.FC = (): React.ReactElement => {
+type Props = {
+  maxLength?: number;
+};
+
+export const Title: React.FC<Readonly<Props>> = ({
+  maxLength = 64,
+}): React.ReactElement => {
   const payload = useTypedSelector((state) => state.EditorSliceReducer);
   const { updTitle } = useActions();
 
@@ -16,7 +22,9 @@ export const Title: React.FC = (): React.ReactElement => {
    * @param ev - Событие ввода, содержащее информацию о текущем содержимом.
    */
   const handleOnChange = (ev: React.FormEvent<HTMLDivElement>) => {
-    updTitle(ev.currentTarget.innerHTML);
+    const text = ev.currentTarget.innerHTML;
+    if (text.length <= maxLength) updTitle(ev.currentTarget.innerHTML);
+    else ev.currentTarget.innerHTML = payload.wrapper.title;
   };
 
   /**
