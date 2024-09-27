@@ -14,6 +14,6 @@ export type EditorTheme = {
  */
 export const EditorTheme: EditorTheme = {
   base: "w-full min-h-fit",
-  list: "flex flex-col space-y-10",
-  title: "w-full h-fit text-4xl font-extrabold outline-none relative",
+  list: "flex flex-col gap-4",
+  title: "w-full h-fit text-4xl font-extrabold focus:outline-none relative",
 };
