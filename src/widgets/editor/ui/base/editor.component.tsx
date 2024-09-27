@@ -2,6 +2,7 @@ import React from "react";
 
 import { List } from "./editor-list.component";
 import { EditorTheme } from "../theme";
+import { Title } from "./editor-title.component";
 
 type Props = {
   theme?: EditorTheme;
@@ -39,6 +40,9 @@ export const Editor: React.FC<Readonly<Props>> = (
   return (
     <EditorContext.Provider value={theme}>
       <div className={theme.base}>
+        <div>
+          <Title />
+        </div>
         <List />
       </div>
     </EditorContext.Provider>

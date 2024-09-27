@@ -26,6 +26,16 @@ export const EditorSlice = createSlice({
   initialState,
   reducers: {
     /**
+     * Метод для изменения заголовка объявлений.
+     * @param action
+     */
+    updTitle: (_state, action: PayloadAction<string>) => {
+      if (_state.wrapper.title.length < 64)
+        _state.wrapper.title = action.payload.valueOf();
+      console.info(_state.wrapper.title);
+    },
+
+    /**
      * Метод для изменения данных у определенного блока.
      *
      * @param id
