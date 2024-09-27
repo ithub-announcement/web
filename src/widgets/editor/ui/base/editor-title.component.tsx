@@ -33,11 +33,14 @@ export const Title: React.FC<Readonly<Props>> = ({
    * Обновляет состояние заголовка в Redux с новым текстом.
    * @param ev - Событие ввода, содержащее информацию о текущем содержимом.
    */
-  const handleOnChange = (ev: React.FormEvent<HTMLDivElement>) => {
-    const text = ev.currentTarget.innerHTML;
-    if (text.length <= maxLength) updTitle(ev.currentTarget.innerHTML);
-    else ev.currentTarget.innerHTML = payload.wrapper.title;
-  };
+  const handleOnChange = React.useCallback(
+    (ev: React.FormEvent<HTMLDivElement>) => {
+      const text = ev.currentTarget.innerHTML;
+      if (text.length <= maxLength) updTitle(ev.currentTarget.innerHTML);
+      else ev.currentTarget.innerHTML = payload.wrapper.title;
+    },
+    [payload.wrapper.title]
+  );
 
   /**
    * Обработчик события нажатия клавиш в поле заголовка.
