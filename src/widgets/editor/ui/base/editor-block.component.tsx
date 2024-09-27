@@ -18,9 +18,11 @@ export type BlockProps = {
  * - Heading
  * - Paragraph
  *
- * @param _props - Дополнительные атрибуты для настройки стилей и поведения компонента.
+ * @param {BlockProps} props - Дополнительные атрибуты для настройки стилей и поведения компонента.
  */
-export const Block: React.FC<BlockProps> = (props): React.ReactElement => {
+export const Block: React.FC<BlockProps> = (
+  props: BlockProps
+): React.ReactElement => {
   const Selected: React.FC<BlockProps> = React.useMemo(() => {
     return {
       heading: () => <></>,

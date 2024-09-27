@@ -14,7 +14,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
  * Этот компонент представляет собой поле ввода заголовка для редактора объявлений.
  * Он позволяет пользователю вводить и редактировать заголовок объявления.
  *
- * @param props
+ * @param {Props} props
  */
 export const Title: React.FC<Readonly<Props>> = ({
   maxLength = 64,

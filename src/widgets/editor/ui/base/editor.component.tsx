@@ -30,13 +30,13 @@ export const EditorContext = React.createContext(EditorTheme);
  *
  * Использует глобальное состояние для управления списком блоков и их содержимым.
  *
- * @param _props - Дополнительные атрибуты для настройки стилей и поведения компонента.
+ * @param {Props} props - Дополнительные атрибуты для настройки стилей и поведения компонента.
  * @author loseex
  */
 export const Editor: React.FC<Readonly<Props>> = (
-  _props
+  props: Props
 ): React.ReactElement => {
-  const theme = _props.theme ?? EditorTheme;
+  const theme = props.theme ?? EditorTheme;
   return (
     <EditorContext.Provider value={theme}>
       <div className={theme.base}>
