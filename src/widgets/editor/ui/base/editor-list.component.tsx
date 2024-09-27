@@ -12,7 +12,6 @@ import { EditorContext } from "./editor.component";
  * Использует хук useTypedSelector для получения данных из Redux-стора.
  * Каждый элемент списка представляет собой компонент Block,
  * который получает соответствующие свойства из состояния редактора.
- *
  */
 export const List: React.FC = React.memo(() => {
   const theme = React.useContext(EditorContext);
