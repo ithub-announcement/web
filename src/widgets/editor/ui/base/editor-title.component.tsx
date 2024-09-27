@@ -7,6 +7,14 @@ type Props = {
   maxLength?: number;
 };
 
+/**
+ * Title
+ *
+ * Этот компонент представляет собой поле ввода заголовка для редактора объявлений.
+ * Он позволяет пользователю вводить и редактировать заголовок объявления.
+ *
+ * @param props
+ */
 export const Title: React.FC<Readonly<Props>> = ({
   maxLength = 64,
 }): React.ReactElement => {
