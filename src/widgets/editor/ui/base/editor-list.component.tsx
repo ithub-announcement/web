@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useTypedSelector } from "@/shared/hooks/redux/redux.selector";
-import { Block, BlockProps } from "./editor-block.component";
+import { Block } from "./editor-block.component";
 import { EditorContext } from "./editor.component";
 
 /**
@@ -20,8 +20,13 @@ export const List: React.FC = React.memo(() => {
   );
   return (
     <div className={theme.list}>
-      {content.map((el, i) => (
-        <Block key={i} {...(el as BlockProps)} />
+      {Object.keys(content).map((key: string) => (
+        <Block
+          key={key}
+          id={+key}
+          value={content[+key].value}
+          type={content[+key].type}
+        />
       ))}
     </div>
   );

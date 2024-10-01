@@ -5,6 +5,7 @@ import React from "react";
 export type BlockType = "heading" | "paragraph";
 
 export type BlockProps = {
+  id: number;
   type: BlockType;
   value: string;
 };
