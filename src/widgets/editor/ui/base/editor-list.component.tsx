@@ -18,6 +18,7 @@ export const List: React.FC = React.memo(() => {
   const { content } = useTypedSelector(
     (state) => state.EditorSliceReducer.wrapper
   );
+
   return (
     <div className={theme.list}>
       {Object.keys(content).map((key: string) => (

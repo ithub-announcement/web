@@ -33,7 +33,12 @@ type initialStateType = {
 const initialState: initialStateType = {
   wrapper: {
     title: "",
-    content: [],
+    content: {
+      1: {
+        type: "paragraph",
+        value: "",
+      },
+    },
   },
   origin: {
     uuid: "",
@@ -42,7 +47,7 @@ const initialState: initialStateType = {
   },
   settings: {
     disable: false,
-    focused: -1,
+    focused: 1,
   },
 };
 
@@ -75,6 +80,29 @@ export const EditorSlice = createSlice({
           },
         };
       }
+    },
+
+    /**
+     * Метод для создания блока в редакторе.
+     * @param {PayloadAction<string | undefined>} action
+     */
+    create: (_state, action: PayloadAction<string | undefined>) => {
+      const current = { ..._state.wrapper.content };
+
+      for (
+        let i = Object.keys(current).length;
+        i > _state.settings.focused;
+        i--
+      ) {
+        current[i + 1] = current[i];
+      }
+
+      current[_state.settings.focused + 1] = {
+        type: "paragraph",
+        value: action.payload ?? "",
+      };
+
+      _state.wrapper.content = current;
     },
 
     /**
