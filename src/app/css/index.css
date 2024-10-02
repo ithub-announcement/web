@@ -77,3 +77,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+div[contenteditable] {
+  &[aria-placeholder]:empty::before {
+    content: attr(aria-placeholder);
+    z-index: 9;
+    color: #969da0;
+    word-break: break-all;
+    user-select: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
