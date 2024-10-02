@@ -2,7 +2,7 @@
  * splitTextByCaret
  *
  * Эта функция обрабатывает текстовое содержимое элемента, на который ссылается переданная ссылка (ref).
- * Она добавляет пустой текстовый узел в элемент и проверяет, является ли этот элемент активным.
+ * Она проверяет, является ли этот элемент активным.
  * Если элемент активен и есть выделение текста, функция извлекает текст до и после текущей позиции курсора.
  *
  * @param {React.MutableRefObject<HTMLDivElement | null>} ref - Ссылка на HTMLDivElement,
@@ -16,14 +16,7 @@ export const splitTextByCaret = (
   const element = ref.current;
   if (!element) return;
 
-  const target: Text = document.createTextNode("");
-  element.appendChild(target);
-
-  if (
-    document.activeElement === element &&
-    target !== null &&
-    target.nodeValue !== null
-  ) {
+  if (document.activeElement === element) {
     const selection = window.getSelection();
 
     if (selection && selection.rangeCount > 0) {
