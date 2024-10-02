@@ -1,4 +1,4 @@
-import { Button } from "@/widgets/ui/button";
+import { Button } from "@/shared/ui/button";
 import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useAuhtorzationClientMutation } from "../api/sign-in.api";

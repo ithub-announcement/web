@@ -1,6 +1,6 @@
 import { AppRouting } from "@/pages";
 import { withProviders } from "./providers";
-import { Toaster } from "@/widgets/ui/sonner";
+import { Toaster } from "@/shared/ui/sonner";
 
 /**
  * App
