@@ -21,13 +21,14 @@ export const splitTextByCaret = (
 
     if (selection && selection.rangeCount > 0) {
       const range: Range = selection.getRangeAt(0);
+
       const startOffset: number = range.startOffset;
 
       const value: string | null = element.textContent;
 
       if (value) {
-        const before = value?.slice(0, startOffset);
         const after = value?.slice(startOffset);
+        const before = value?.slice(0, startOffset);
 
         return { before, after };
       }

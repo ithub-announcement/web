@@ -2,27 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { BlockType } from "@/widgets/editor/ui/base/editor-block.component";
 
-type ContentType = {
-  [key: number]: {
-    type: BlockType;
-    value: string;
-  };
+type Block = {
+  type: BlockType;
+  value: string;
 };
 
 type initialStateType = {
   wrapper: {
     title: string;
-    content: ContentType;
+    content: Block[];
   };
   origin: {
     uuid: string;
     title: string;
-    content: {
-      [key: number]: {
-        type: BlockType;
-        value: string;
-      };
-    };
+    content: Block[];
   };
   settings: {
     disable: boolean;
@@ -33,7 +26,12 @@ type initialStateType = {
 const initialState: initialStateType = {
   wrapper: {
     title: "",
-    content: [],
+    content: [
+      {
+        type: "paragraph",
+        value: "",
+      },
+    ],
   },
   origin: {
     uuid: "",
@@ -42,7 +40,7 @@ const initialState: initialStateType = {
   },
   settings: {
     disable: false,
-    focused: -1,
+    focused: 0,
   },
 };
 
@@ -60,21 +58,35 @@ export const EditorSlice = createSlice({
 
     /**
      * Метод для изменения данных у определенного блока.
-     * @param {PayloadAction<{ id: number; value: string }>} action
+     * @param {PayloadAction<{ index: number; value: string }>} action
      */
     setState: (
       _state,
-      action: PayloadAction<{ id: number; value: string }>
+      action: PayloadAction<{ index: number; value: string }>
     ) => {
-      if (_state.wrapper.content[action.payload.id]) {
-        _state.wrapper.content = {
-          ..._state.wrapper.content,
-          [action.payload.id]: {
-            ..._state.wrapper.content[action.payload.id],
-            value: action.payload.value,
-          },
-        };
-      }
+      const current = _state.wrapper.content.find(
+        (_, i) => i === action.payload.index
+      );
+
+      if (!current) return;
+
+      current.value = action.payload.value;
+      _state.wrapper.content[action.payload.index] = current;
+    },
+
+    create: (
+      _state,
+      _action: PayloadAction<{
+        value?: string;
+        focused: number;
+      }>
+    ) => {
+      const object: Block = {
+        type: "paragraph",
+        value: _action.payload.value ?? "",
+      };
+
+      _state.wrapper.content.splice(_action.payload.focused + 1, 0, object);
     },
 
     /**
